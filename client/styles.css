@@ -1,0 +1,16 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+.book {
+  width: 300px;
+  height: 150px;
+  background-color: pink;
+  text-align: center;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: bolder;
+}

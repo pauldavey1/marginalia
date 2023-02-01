@@ -1,6 +1,6 @@
 const path = require('path');
 const express = require('express');
-// const apiRouter = require('./routes/api');
+const router = require('./routes/api.js');
 const app = express();
 const PORT = 3000;
 
@@ -8,10 +8,19 @@ const PORT = 3000;
 app.use(express.json());
 
 // test get request to index
-app.get('/', res.status(200).send('../client/index.html'));
+app.get('/', (req, res) =>
+  res.status(200).sendFile(path.join(__dirname, '..', 'build', 'index.html'))
+);
 
-// define route handlers
-// app.use('/api', apiRouter);
+app.get('/bundle.js', (req, res) =>
+  res.status(200).sendFile(path.join(__dirname, '..', 'build', 'bundle.js'))
+);
+
+// static request handler (stylesheets, etc.)
+app.use(express.static(path.resolve(__dirname, '../client')));
+
+// pass api requests to router
+app.use('/api', router);
 
 // 404 route handler
 app.use((req, res) => res.status(404).send('Error: page not found'));
@@ -33,4 +42,4 @@ app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}...`);
 });
 
-export default app;
+module.exports = app;

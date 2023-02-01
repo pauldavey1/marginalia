@@ -1,9 +1,12 @@
-import React, { Component } from 'react';
-import { render } from 'react-dom';
+import React from 'react';
+import Booklist from './components/Booklist.jsx';
 
-function App() {
-  return <h1>React Test!</h1>;
+function App(props) {
+  return (
+    <div>
+      <Booklist />
+    </div>
+  );
 }
 
-const root = document.querySelector('#root');
-root.render(<App />);
+export default App;
