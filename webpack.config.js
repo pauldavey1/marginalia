@@ -8,7 +8,7 @@ module.exports = {
     publicPath: '/',
     filename: 'bundle.js',
   },
-  mode: 'production',
+  mode: 'development',
   devServer: {
     host: 'localhost',
     port: 8080,
@@ -18,6 +18,10 @@ module.exports = {
         target: 'http://localhost:3000/',
         secure: false,
       },
+    },
+    static: {
+      directory: path.resolve(__dirname, 'build'),
+      publicPath: '/',
     },
   },
   module: {
@@ -34,6 +38,11 @@ module.exports = {
             ],
           },
         },
+      },
+      {
+        test: /.(css|scss)$/,
+        exclude: /node_modules/,
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },

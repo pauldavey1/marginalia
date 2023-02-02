@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Book from './Book.jsx';
 
-function Booklist(props) {
+function BookList(props) {
   const [componentArray, setComponentArray] = useState([]);
   const [loaded, setLoaded] = useState(false);
   // console.log('making a booklist!');
@@ -16,7 +17,12 @@ function Booklist(props) {
         setComponentArray(
           bookArray.map((book) => {
             return (
-              <Book key={book._id} title={book.title} author={book.author} />
+              <Book
+                key={book._id}
+                id={book._id}
+                title={book.title}
+                author={book.author}
+              />
             );
           })
         );
@@ -30,8 +36,15 @@ function Booklist(props) {
   if (loaded === true) {
     // console.log('time to render stuff!');
     // console.log(componentArray);
-    return <div>{componentArray}</div>;
+    return (
+      <div>
+        <Link to='/create'>
+          <button>Add a new book</button>
+        </Link>
+        {componentArray}
+      </div>
+    );
   }
 }
 
-export default Booklist;
+export default BookList;
