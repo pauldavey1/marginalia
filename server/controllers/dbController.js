@@ -56,6 +56,22 @@ controller.deleteBook = (req, res, next) => {
     });
 };
 
+controller.getBookTitle = (req, res, next) => {
+  const id = [req.params.id];
+  const queryText = 'SELECT * FROM books WHERE _id = $1';
+  db.query(queryText, id)
+    .then((result) => {
+      res.locals.result = result.rows[0];
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        internalLog: 'error in controller.getBookTitle',
+        err: err,
+      });
+    });
+};
+
 controller.getQuotes = (req, res, next) => {
   const id = [req.params.id];
   const queryText = 'SELECT * FROM quotes WHERE bookid = $1 ORDER BY page';

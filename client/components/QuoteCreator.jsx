@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import BookTitle from './BookTitle.jsx';
 
 function QuoteCreator(props) {
   const { id } = useParams();
@@ -14,6 +15,8 @@ function QuoteCreator(props) {
           </button>
         </Link>
       </div>
+      <BookTitle />
+
       <div className='bookcreator'>
         <b>Text:</b>
         <br></br>

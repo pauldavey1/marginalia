@@ -4,7 +4,7 @@ function Quote(props) {
   const [deleted, setDeleted] = useState(false);
   if (deleted === false) {
     return (
-      <div className='quote' id={props.id}>
+      <div className={props.quote ? 'quote' : 'note'} id={props.id}>
         <p className='pagenumber'>Page {props.page}</p>
         {props.quote === true ? (
           <p className='quotetext'>"{props.text}"</p>
@@ -27,7 +27,7 @@ function Quote(props) {
               setDeleted(true);
             }}
           >
-            Delete quote
+            {props.quote ? 'Delete quote' : 'Delete note'}
           </button>
         </div>
       </div>

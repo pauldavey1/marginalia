@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import Quote from './Quote.jsx';
+import BookTitle from './BookTitle.jsx';
 
 function QuoteList(props) {
   const { id } = useParams();
@@ -34,7 +35,7 @@ function QuoteList(props) {
           return;
         })
         .catch((err) =>
-          console.log('Error in Booklist.jsx API fetch request: ' + err)
+          console.log('Error in QuoteList.jsx API fetch request: ' + err)
         );
     }, 200);
   }
@@ -56,7 +57,10 @@ function QuoteList(props) {
             </Link>
           </div>
         </div>
-        <div className='quotelist'>{componentArray}</div>
+        <div className='quotelist'>
+          <BookTitle />
+          {componentArray}
+        </div>
       </div>
     );
   }

@@ -31,7 +31,7 @@ function BookList(props) {
           return;
         })
         .catch((err) =>
-          console.log('Error in Booklist.jsx API fetch request: ' + err)
+          console.log('Error in BookList.jsx API fetch request: ' + err)
         );
     }, 200);
   }

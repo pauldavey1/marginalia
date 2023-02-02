@@ -14,6 +14,10 @@ router.delete('/', controller.deleteBook, (req, res) => {
   return res.status(200).json(res.locals.result);
 });
 
+router.get('/:id/title', controller.getBookTitle, (req, res) => {
+  return res.status(200).json(res.locals.result);
+});
+
 router.get('/:id', controller.getQuotes, (req, res) => {
   return res.status(200).json(res.locals.result);
 });
