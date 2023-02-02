@@ -14,4 +14,16 @@ router.delete('/', controller.deleteBook, (req, res) => {
   return res.status(200).json(res.locals.result);
 });
 
+router.get('/:id', controller.getQuotes, (req, res) => {
+  return res.status(200).json(res.locals.result);
+});
+
+router.post('/quotes', controller.addQuote, (req, res) => {
+  return res.status(200).json(res.locals.result);
+});
+
+router.delete('/quotes', controller.deleteQuote, (req, res) => {
+  return res.status(200).json(res.locals.result);
+});
+
 module.exports = router;

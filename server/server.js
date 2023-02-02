@@ -7,20 +7,35 @@ const PORT = 3000;
 // parse request body
 app.use(express.json());
 
-// test get request to index
-app.get('/', (req, res) =>
-  res.status(200).sendFile(path.join(__dirname, '..', 'build', 'index.html'))
-);
-
-app.get('/bundle.js', (req, res) =>
-  res.status(200).sendFile(path.join(__dirname, '..', 'build', 'bundle.js'))
-);
-
-// static request handler (stylesheets, etc.)
-app.use(express.static(path.resolve(__dirname, '../client')));
-
 // pass api requests to router
 app.use('/api', router);
+
+// in production mode...
+if (process.env.NODE_ENV === 'production') {
+  // return bundle.js
+  app.get('/bundle.js', (req, res) =>
+    res.status(200).sendFile(path.join(__dirname, '..', 'build', 'bundle.js'))
+  );
+
+  // serve index.html
+  app.get('/*', (req, res) =>
+    res.status(200).sendFile(path.join(__dirname, '..', 'build', 'index.html'))
+  );
+
+  // static request handler (stylesheets, etc.)
+  app.use(express.static(path.resolve(__dirname, '../client')));
+}
+
+// in development mode...
+if (process.env.NODE_ENV === 'development') {
+  // static request handler (stylesheets, etc.)
+  app.use(express.static(path.resolve(__dirname, '../client')));
+
+  // send all other get requests to index.html so react router can handle them
+  app.use('/*', (req, res) =>
+    res.status(200).sendFile(path.join(__dirname, '..', 'client', 'index.html'))
+  );
+}
 
 // 404 route handler
 app.use((req, res) => res.status(404).send('Error: page not found'));

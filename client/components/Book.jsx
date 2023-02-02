@@ -6,24 +6,30 @@ function Book(props) {
   if (deleted === false) {
     return (
       <div className='book' id={props.id}>
-        <h3>{props.title}</h3>
-        <p>{props.author}</p>
-        <button
-          onClick={() => {
-            fetch('/api', {
-              method: 'DELETE',
-              headers: {
-                'Content-Type': 'Application/JSON',
-              },
-              body: JSON.stringify({
-                _id: props.id,
-              }),
-            });
-            setDeleted(true);
-          }}
-        >
-          Delete book
-        </button>
+        <div className='booktitle'>{props.title}</div>
+        <div className='bookauthor'>{props.author}</div>
+        <div className='bookbuttons'>
+          <Link to={'/books/' + props.id}>
+            <button className='primarybutton'>Show Saved Notes</button>
+          </Link>
+          <button
+            className='deletebutton'
+            onClick={() => {
+              fetch('/api', {
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'Application/JSON',
+                },
+                body: JSON.stringify({
+                  _id: props.id,
+                }),
+              });
+              setDeleted(true);
+            }}
+          >
+            Delete book
+          </button>
+        </div>
       </div>
     );
   }

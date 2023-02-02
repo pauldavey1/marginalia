@@ -14,7 +14,7 @@ function App(props) {
       <BrowserRouter>
         <Routes>
           <Route path='/create' element={<BookCreator />} />
-          <Route path='/' element={<BookList loaded={false} />} />
+          <Route path='/' element={<BookList />} />
           <Route path='/books/:id' element={<QuoteList />} />
           <Route path='/books/:id/create' element={<QuoteCreator />} />
         </Routes>

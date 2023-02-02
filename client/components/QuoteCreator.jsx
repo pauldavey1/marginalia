@@ -1,49 +1,68 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 function QuoteCreator(props) {
-  //   return (
-  //     <div>
-  //       <Link to='/'>
-  //         <button>Back to book list</button>
-  //       </Link>
-  //       <br></br>
-  //       <br></br>
-  //       Title:
-  //       <br></br>
-  //       <input id='titleField'></input>
-  //       <br></br>
-  //       <br></br>
-  //       Author:
-  //       <br></br>
-  //       <input id='authorField'></input>
-  //       <br></br>
-  //       <br></br>
-  //       ISBN:
-  //       <br></br>
-  //       <input id='isbnField' placeholder='optional'></input>
-  //       <br></br>
-  //       <br></br>
-  //       <Link to='/'>
-  //         <button
-  //           onClick={() => {
-  //             fetch('/api', {
-  //               method: 'POST',
-  //               headers: {
-  //                 'Content-Type': 'Application/JSON',
-  //               },
-  //               body: JSON.stringify({
-  //                 title: document.getElementById('titleField').value,
-  //                 author: document.getElementById('authorField').value,
-  //                 isbn13: document.getElementById('isbnField').value,
-  //               }),
-  //             });
-  //           }}
-  //         >
-  //           Create book
-  //         </button>
-  //       </Link>
-  //     </div>
-  //   );
+  const { id } = useParams();
+
+  return (
+    <div>
+      <div className='header'>
+        <h1>Marginalia</h1>
+        <Link to={`/books/${id}`}>
+          <button className='headerbutton' id='backheaderbutton'>
+            Back to book
+          </button>
+        </Link>
+      </div>
+      <div className='bookcreator'>
+        <b>Text:</b>
+        <br></br>
+        <input id='textField' size='60'></input>
+        <br></br>
+        <div id='quoteSelector'>
+          <input
+            type='radio'
+            id='quote'
+            name='isQuote'
+            value='true'
+            defaultChecked
+          ></input>
+          <label htmlFor='quote'>Quote</label>
+          <input type='radio' id='note' name='isQuote' value='false'></input>
+          <label htmlFor='note'>Note</label>
+        </div>
+        <br></br>
+        <br></br>
+        <b>Page number:</b>
+        <br></br>
+        <input id='pageField' size='3'></input>
+        <br></br>
+        <br></br>
+        <Link to={`/books/${id}`} state={{ loaded: false }}>
+          <button
+            className='primarybutton'
+            onClick={() => {
+              fetch(`/api/quotes`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'Application/JSON',
+                },
+                body: JSON.stringify({
+                  text: document.getElementById('textField').value,
+                  quote: document.getElementById('quote').checked
+                    ? true
+                    : false,
+                  page: document.getElementById('pageField').value,
+                  bookid: id,
+                }),
+              });
+            }}
+          >
+            Create quote
+          </button>
+        </Link>
+      </div>
+    </div>
+  );
 }
 export default QuoteCreator;

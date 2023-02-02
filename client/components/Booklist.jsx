@@ -7,40 +7,45 @@ function BookList(props) {
   const [loaded, setLoaded] = useState(false);
   // console.log('making a booklist!');
   if (loaded === false) {
-    fetch('/api')
-      .then((res) => {
-        // console.log('making BookArray!');
-        return res.json();
-      })
-      .then((bookArray) => {
-        // console.log('making ComponentArray!');
-        setComponentArray(
-          bookArray.map((book) => {
-            return (
-              <Book
-                key={book._id}
-                id={book._id}
-                title={book.title}
-                author={book.author}
-              />
-            );
-          })
+    setTimeout(() => {
+      fetch('/api')
+        .then((res) => {
+          // console.log('making BookArray!');
+          return res.json();
+        })
+        .then((bookArray) => {
+          // console.log('making ComponentArray!');
+          setComponentArray(
+            bookArray.map((book) => {
+              return (
+                <Book
+                  key={book._id}
+                  id={book._id}
+                  title={book.title}
+                  author={book.author}
+                />
+              );
+            })
+          );
+          setLoaded(true);
+          return;
+        })
+        .catch((err) =>
+          console.log('Error in Booklist.jsx API fetch request: ' + err)
         );
-        setLoaded(true);
-        return;
-      })
-      .catch((err) =>
-        console.log('Error in Booklist.jsx API fetch request: ' + err)
-      );
+    }, 200);
   }
   if (loaded === true) {
     // console.log('time to render stuff!');
     // console.log(componentArray);
     return (
       <div>
-        <Link to='/create'>
-          <button>Add a new book</button>
-        </Link>
+        <div className='header'>
+          <h1>Marginalia</h1>
+          <Link to='/create'>
+            <button className='headerbutton'>Add a new book</button>
+          </Link>
+        </div>
         <div className='booklist'>{componentArray}</div>
       </div>
     );
