@@ -24,7 +24,7 @@ function BookCreator(props) {
       <input id='isbnField' placeholder='optional'></input>
       <br></br>
       <br></br>
-      <Link to='/'>
+      <Link to='/' state={{ loaded: false }}>
         <button
           onClick={() => {
             fetch('/api', {

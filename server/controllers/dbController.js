@@ -16,7 +16,6 @@ controller.getBooks = (req, res, next) => {
 };
 
 controller.addBook = (req, res, next) => {
-  console.log('req.body is ', req.body);
   const params = [
     req.body.title,
     req.body.author,
@@ -31,6 +30,19 @@ controller.addBook = (req, res, next) => {
     })
     .catch((err) => {
       return next({ internalLog: 'error in controller.addBook', err: err });
+    });
+};
+
+controller.deleteBook = (req, res, next) => {
+  const params = [req.body._id];
+  const queryText = 'DELETE FROM books WHERE _id = $1 RETURNING *';
+  db.query(queryText, params)
+    .then((result) => {
+      res.locals.result = result.rows[0];
+      return next();
+    })
+    .catch((err) => {
+      return next({ internalLog: 'error in controller.deleteBook', err: err });
     });
 };
 

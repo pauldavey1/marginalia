@@ -1,13 +1,21 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
+  background-color: #e4def6;
 }
 .book {
   width: 300px;
   height: 150px;
-  background-color: pink;
+  background-color: white;
   text-align: center;
   padding: 20px;
   border-radius: 10px;
+  margin: 10px;
+}
+
+.booklist {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
 }
 
 h3 {

@@ -41,7 +41,7 @@ function BookList(props) {
         <Link to='/create'>
           <button>Add a new book</button>
         </Link>
-        {componentArray}
+        <div className='booklist'>{componentArray}</div>
       </div>
     );
   }
