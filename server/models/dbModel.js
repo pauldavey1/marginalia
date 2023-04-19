@@ -10,7 +10,7 @@ const URI =
 mongoose.connect(URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  dbName: marginalia,
+  dbName: 'marginalia',
 });
 
 const Schema = mongoose.Schema;
