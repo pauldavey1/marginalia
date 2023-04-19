@@ -2,19 +2,19 @@ const express = require('express');
 const controller = require('../controllers/dbController.js');
 const router = express.Router();
 
-router.get('/', controller.getBooks, (req, res) => {
+router.get('/', controller.getMedia, (req, res) => {
   return res.status(200).json(res.locals.result);
 });
 
-router.post('/', controller.addBook, (req, res) => {
+router.post('/', controller.addMedia, (req, res) => {
   return res.status(201).json(res.locals.result);
 });
 
-router.delete('/', controller.deleteBook, (req, res) => {
+router.delete('/', controller.deleteMedia, (req, res) => {
   return res.status(200).json(res.locals.result);
 });
 
-router.get('/:id/title', controller.getBookTitle, (req, res) => {
+router.get('/:id/title', controller.getMediaTitle, (req, res) => {
   return res.status(200).json(res.locals.result);
 });
 

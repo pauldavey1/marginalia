@@ -16,7 +16,6 @@ mongoose.connect(URI, {
 const Schema = mongoose.Schema;
 
 const mediaSchema = new Schema({
-  id: { type: Number, required: true },
   title: { type: String, required: true },
   author: String,
   isbn13: Number,

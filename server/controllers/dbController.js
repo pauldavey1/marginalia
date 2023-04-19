@@ -5,8 +5,9 @@ const controller = {};
 // get list of sources from DB
 controller.getMedia = (req, res, next) => {
   console.log('line7');
-  Media.find()
+  Media.find({})
     .then((result) => {
+      console.log(result);
       res.locals.result = result.rows;
       return next();
     })
@@ -15,30 +16,30 @@ controller.getMedia = (req, res, next) => {
     });
 };
 
-controller.addBook = (req, res, next) => {
-  const params = [
-    req.body.title,
-    req.body.author,
-    isNaN(parseInt(req.body.isbn13)) ? null : parseInt(req.body.isbn13),
-  ];
-  const queryText =
-    'INSERT INTO books (title, author, isbn13) VALUES ($1, $2, $3)';
-  db.query(queryText, params)
+controller.addMedia = (req, res, next) => {
+  const newMedia = new Media({
+    title: req.body.title,
+    author: req.body.author,
+    // isNaN(parseInt(req.body.isbn13)) ? null : parseInt(req.body.isbn13),
+  });
+  newMedia
+    .save()
     .then((result) => {
-      res.locals.result = result.rows[0];
+      console.log(result);
+      res.locals.result = result._id;
       return next();
     })
     .catch((err) => {
-      return next({ internalLog: 'error in controller.addBook', err: err });
+      return next({ internalLog: 'error in controller.addMedia', err: err });
     });
 };
 
-controller.deleteBook = (req, res, next) => {
+controller.deleteMedia = (req, res, next) => {
   const id = [req.body._id];
   const quoteQueryText = 'DELETE FROM quotes WHERE bookid = $1';
   db.query(quoteQueryText, id).catch((err) => {
     return next({
-      internalLog: 'error deleting quotes in controller.deleteBook',
+      internalLog: 'error deleting quotes in controller.deleteMedia',
       err: err,
     });
   });
@@ -50,13 +51,13 @@ controller.deleteBook = (req, res, next) => {
     })
     .catch((err) => {
       return next({
-        internalLog: 'error deleting book in controller.deleteBook',
+        internalLog: 'error deleting book in controller.deleteMedia',
         err: err,
       });
     });
 };
 
-controller.getBookTitle = (req, res, next) => {
+controller.getMediaTitle = (req, res, next) => {
   const id = [req.params.id];
   const queryText = 'SELECT * FROM books WHERE _id = $1';
   db.query(queryText, id)
@@ -66,7 +67,7 @@ controller.getBookTitle = (req, res, next) => {
     })
     .catch((err) => {
       return next({
-        internalLog: 'error in controller.getBookTitle',
+        internalLog: 'error in controller.getMediaTitle',
         err: err,
       });
     });
