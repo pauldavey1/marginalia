@@ -2,7 +2,6 @@ const { Media, Note } = require('../models/dbModel.js');
 
 const controller = {};
 
-// get list of sources from DB
 controller.getMedia = (req, res, next) => {
   Media.find({})
     .then((result) => {
@@ -18,7 +17,7 @@ controller.addMedia = (req, res, next) => {
   const newMedia = new Media({
     title: req.body.title,
     author: req.body.author,
-    // isNaN(parseInt(req.body.isbn13)) ? null : parseInt(req.body.isbn13),
+    // add additional language for ISBN, etc.: isNaN(parseInt(req.body.isbn13)) ? null : parseInt(req.body.isbn13),
   });
   newMedia
     .save()
@@ -37,7 +36,7 @@ controller.deleteMedia = (req, res, next) => {
   // delete media's associated notes/quotes first
   Note.deleteMany({ mediaId: id }).catch((err) => {
     return next({
-      internalLog: 'error deleting quotes in controller.deleteMedia',
+      internalLog: 'error deleting notes in controller.deleteMedia',
       err: err,
     });
   });
@@ -55,12 +54,12 @@ controller.deleteMedia = (req, res, next) => {
     });
 };
 
+// for BookTitle component (which belongs to QuoteCreator component)
 controller.getMediaTitle = (req, res, next) => {
   const id = [req.params.id];
-  const queryText = 'SELECT * FROM books WHERE _id = $1';
-  db.query(queryText, id)
+  Media.findById(id)
     .then((result) => {
-      res.locals.result = result.rows[0];
+      res.locals.result = result;
       return next();
     })
     .catch((err) => {
@@ -73,10 +72,10 @@ controller.getMediaTitle = (req, res, next) => {
 
 controller.getQuotes = (req, res, next) => {
   const id = [req.params.id];
-  const queryText = 'SELECT * FROM quotes WHERE bookid = $1 ORDER BY page';
-  db.query(queryText, id)
+  Note.find({ mediaId: id })
+    .sort('page')
     .then((result) => {
-      res.locals.result = result.rows;
+      res.locals.result = result;
       return next();
     })
     .catch((err) => {
