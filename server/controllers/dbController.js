@@ -6,7 +6,6 @@ const controller = {};
 controller.getMedia = (req, res, next) => {
   Media.find({})
     .then((result) => {
-      console.log(result);
       res.locals.result = result;
       return next();
     })
@@ -35,17 +34,17 @@ controller.addMedia = (req, res, next) => {
 
 controller.deleteMedia = (req, res, next) => {
   const id = [req.body._id];
-  const quoteQueryText = 'DELETE FROM quotes WHERE bookid = $1';
-  db.query(quoteQueryText, id).catch((err) => {
+  // delete media's associated notes/quotes first
+  Note.deleteMany({ mediaId: id }).catch((err) => {
     return next({
       internalLog: 'error deleting quotes in controller.deleteMedia',
       err: err,
     });
   });
-  const queryText = 'DELETE FROM books WHERE _id = $1 RETURNING *';
-  db.query(queryText, id)
+  // then delete media
+  Media.findByIdAndDelete(id)
     .then((result) => {
-      res.locals.result = result.rows[0];
+      res.locals.result = result;
       return next();
     })
     .catch((err) => {
