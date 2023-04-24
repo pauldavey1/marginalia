@@ -22,7 +22,6 @@ controller.addMedia = (req, res, next) => {
   newMedia
     .save()
     .then((result) => {
-      console.log(result);
       res.locals.result = result._id;
       return next();
     })
@@ -84,17 +83,17 @@ controller.getQuotes = (req, res, next) => {
 };
 
 controller.addQuote = (req, res, next) => {
-  const params = [
-    req.body.text,
-    req.body.quote,
-    isNaN(parseInt(req.body.page)) ? null : parseInt(req.body.page),
-    req.body.bookid,
-  ];
-  const queryText =
-    'INSERT INTO quotes (text, quote, page, bookid) VALUES ($1, $2, $3, $4)';
-  db.query(queryText, params)
+  const { text, isQuote, page, mediaId } = req.body;
+  const newNote = new Note({
+    text,
+    isQuote,
+    page,
+    mediaId,
+  });
+  newNote
+    .save()
     .then((result) => {
-      res.locals.result = result.rows[0];
+      res.locals.result = result;
       return next();
     })
     .catch((err) => {

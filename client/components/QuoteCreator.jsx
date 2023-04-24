@@ -52,11 +52,11 @@ function QuoteCreator(props) {
                 },
                 body: JSON.stringify({
                   text: document.getElementById('textField').value,
-                  quote: document.getElementById('quote').checked
+                  isQuote: document.getElementById('quote').checked
                     ? true
                     : false,
                   page: document.getElementById('pageField').value,
-                  bookid: id,
+                  mediaId: id,
                 }),
               });
             }}

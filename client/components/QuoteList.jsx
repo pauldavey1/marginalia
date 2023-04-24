@@ -8,16 +8,14 @@ function QuoteList(props) {
   const { id } = useParams();
   const [componentArray, setComponentArray] = useState([]);
   const [loaded, setLoaded] = useState(false);
-  // console.log('making a booklist!');
   if (loaded === false) {
     setTimeout(() => {
       fetch(`/api/${id}`)
         .then((res) => {
-          // console.log('making BookArray!');
           return res.json();
         })
         .then((quoteArray) => {
-          // console.log('making ComponentArray!');
+          console.log(quoteArray);
           setComponentArray(
             quoteArray.map((quote) => {
               return (
@@ -26,7 +24,7 @@ function QuoteList(props) {
                   id={quote._id}
                   text={quote.text}
                   page={quote.page}
-                  quote={quote.quote}
+                  quote={JSON.parse(quote.isQuote)}
                 />
               );
             })
