@@ -103,10 +103,9 @@ controller.addQuote = (req, res, next) => {
 
 controller.deleteQuote = (req, res, next) => {
   const id = [req.body._id];
-  const queryText = 'DELETE FROM quotes WHERE _id = $1 RETURNING *';
-  db.query(queryText, id)
+  Note.findByIdAndDelete(id)
     .then((result) => {
-      res.locals.result = result.rows[0];
+      res.locals.result = result;
       return next();
     })
     .catch((err) => {
