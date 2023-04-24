@@ -4,11 +4,10 @@ const controller = {};
 
 // get list of sources from DB
 controller.getMedia = (req, res, next) => {
-  console.log('line7');
   Media.find({})
     .then((result) => {
       console.log(result);
-      res.locals.result = result.rows;
+      res.locals.result = result;
       return next();
     })
     .catch((err) => {
