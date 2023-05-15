@@ -23,7 +23,16 @@ function Quote(props) {
                 body: JSON.stringify({
                   _id: props.id,
                 }),
-              });
+              })
+                .then((res) => {
+                  if (!res.ok) throw new Error();
+                })
+                .catch((err) => {
+                  alert(
+                    `Marginalia encountered an error deleting a quote. Please try again later.`
+                  );
+                  window.location.reload();
+                });
               setDeleted(true);
             }}
           >
